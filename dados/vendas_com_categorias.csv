@@ -1,0 +1,101 @@
+produto_id,categoria_id,produto_nome,vendas,quantidade
+1,4,Livro Não-ficção,521.07,56
+2,6,Bola de Basquete,247.86,46
+3,5,Camiseta,438.47,27
+4,7,Liquidificador,232.06,39
+5,3,Aspirador de Pó,848.12,66
+6,3,Aspirador de Pó,936.21,26
+7,8,Smartphone,950.35,42
+8,6,Livro Ficção,691.01,53
+9,3,Sofá,249.41,22
+10,1,Livro Ficção,51.57,69
+11,3,Bola de Basquete,308.32,28
+12,8,Livro Não-ficção,259.11,20
+13,7,Livro Não-ficção,795.16,9
+14,5,Liquidificador,707.35,29
+15,6,Sofá,753.98,1
+16,2,Bola de Basquete,471.6,13
+17,2,Boneco de Ação,813.29,59
+18,8,Bola de Basquete,972.69,37
+19,3,Livro Ficção,408.33,32
+20,5,Notebook,892.29,11
+21,4,Calça Jeans,569.14,63
+22,4,Livro Não-ficção,96.6,20
+23,7,Livro Não-ficção,798.01,54
+24,2,Liquidificador,765.06,5
+25,3,Notebook,552.41,40
+26,7,Notebook,29.05,61
+27,5,Bola de Basquete,130.32,3
+28,5,Sofá,891.81,56
+29,2,Livro Não-ficção,987.59,49
+30,5,Notebook,378.07,35
+31,1,Sofá,705.21,99
+32,5,Raquete de Tênis,99.19,47
+33,5,Bola de Basquete,45.75,8
+34,8,Notebook,313.63,97
+35,2,Bola de Basquete,994.78,99
+36,1,Aspirador de Pó,561.86,86
+37,7,Raquete de Tênis,958.51,29
+38,2,Bola de Basquete,880.55,88
+39,4,Smartphone,426.91,73
+40,6,Raquete de Tênis,668.99,94
+41,1,Boneco de Ação,231.94,5
+42,7,Smartphone,679.46,5
+43,7,Bola de Basquete,483.97,45
+44,1,Smartphone,147.52,39
+45,2,Smartphone,359.29,95
+46,8,Calça Jeans,672.86,74
+47,4,Notebook,61.82,16
+48,2,Raquete de Tênis,947.82,46
+49,1,Liquidificador,923.47,39
+50,2,Notebook,410.52,66
+51,8,Livro Não-ficção,258.23,98
+52,8,Bola de Basquete,293.7,41
+53,7,Smartphone,695.72,42
+54,3,Boneco de Ação,651.5,22
+55,7,Liquidificador,635.94,44
+56,6,Livro Ficção,850.87,5
+57,4,Aspirador de Pó,141.51,6
+58,1,Raquete de Tênis,991.6,1
+59,3,Liquidificador,631.35,72
+60,3,Livro Não-ficção,514.54,64
+61,1,Calça Jeans,859.16,1
+62,4,Sofá,712.19,69
+63,7,Notebook,634.98,40
+64,5,Livro Ficção,603.28,5
+65,4,Calça Jeans,729.52,89
+66,3,Livro Não-ficção,566.12,83
+67,1,Livro Ficção,224.77,44
+68,8,Notebook,959.19,38
+69,6,Sofá,844.4,12
+70,7,Bola de Basquete,622.16,92
+71,3,Liquidificador,172.97,91
+72,5,Calça Jeans,758.54,90
+73,4,Bola de Basquete,272.02,42
+74,2,Sofá,763.76,27
+75,2,Notebook,528.24,42
+76,4,Camiseta,542.81,57
+77,6,Smartphone,652.85,92
+78,7,Camiseta,958.73,58
+79,6,Sofá,449.82,6
+80,7,Livro Não-ficção,62.97,38
+81,3,Bola de Basquete,328.03,30
+82,6,Aspirador de Pó,869.18,88
+83,1,Boneco de Ação,526.46,21
+84,6,Smartphone,40.35,64
+85,1,Liquidificador,261.07,4
+86,7,Raquete de Tênis,691.63,73
+87,7,Smartphone,469.87,16
+88,6,Liquidificador,328.74,97
+89,8,Livro Não-ficção,805.05,44
+90,1,Calça Jeans,323.93,68
+91,8,Bola de Basquete,88.35,61
+92,7,Liquidificador,369.31,83
+93,1,Camiseta,855.35,94
+94,3,Calça Jeans,79.06,20
+95,4,Livro Não-ficção,726.9,7
+96,5,Smartphone,800.1,20
+97,8,Calça Jeans,676.52,34
+98,6,Sofá,611.58,64
+99,2,Smartphone,835.11,60
+100,1,Livro Ficção,411.4,13
