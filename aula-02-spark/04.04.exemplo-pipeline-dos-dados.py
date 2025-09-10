@@ -33,17 +33,15 @@ spark
 
 
 # dados de armazenamento
-aluno = 'rafael_negrao_002'
+aluno = 'rafael_negrao_001'
 banco_de_dados = "exemploapidb"
 tabela = "contato_eventos"
 
 # dados para acessar o kafka
-brokers = "ec2-3-218-204-213.compute-1.amazonaws.com:9094"
+brokers = "35.170.45.4:9094"
 topic = "mysql.exemplodb.contato_entity"
 groupId = f"consumer-landing-{tabela}-{aluno}-01"
 
-# ajustando o shffle em funcao do numero de threads
-sqlContext.setConf("spark.sql.shuffle.partitions", "8")
 
 print(
 f'''
@@ -65,7 +63,7 @@ groupId = {groupId}
 
 # COMMAND ----------
 
-warehouse_path = spark.conf.get("spark.sql.warehouse.dir")
+warehouse_path = "/Volumes/workspace/default/laboratorio-spark/"
 
 localizacao_base_landing = f'{warehouse_path}/fialabdata-engenharia-deltalake/landing/{banco_de_dados}_{aluno}'
 localizacao_base_landing_checkpoint = f'{localizacao_base_landing}/_checkpoint'
