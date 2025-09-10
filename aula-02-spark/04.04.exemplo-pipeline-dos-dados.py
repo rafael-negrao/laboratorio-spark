@@ -63,7 +63,10 @@ groupId = {groupId}
 
 # COMMAND ----------
 
-warehouse_path = "/Volumes/workspace/default/laboratorio-spark/"
+warehouse_path = spark.conf.get("spark.sql.warehouse.dir")
+print(f"Warehouse Directory: {warehouse_path}")
+
+# COMMAND ----------
 
 localizacao_base_landing = f'{warehouse_path}/fialabdata-engenharia-deltalake/landing/{banco_de_dados}_{aluno}'
 localizacao_base_landing_checkpoint = f'{localizacao_base_landing}/_checkpoint'
@@ -297,7 +300,7 @@ else:
 # COMMAND ----------
 
 display(dbutils.fs.ls(localizacao_base_landing))
-display(dbutils.fs.ls(f'{localizacao_base_landing}/date=2025-01-06'))
+display(dbutils.fs.ls(f'{localizacao_base_landing}/date=2025-09-01'))
 
 # COMMAND ----------
 

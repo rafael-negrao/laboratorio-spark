@@ -89,8 +89,8 @@ query.awaitTermination()
 
 # COMMAND ----------
 
-# display(df_agrupado)
-display(df, checkpointLocation="/Volumes/workspace/default/laboratorio-spark/exercicio.04.02/_checkpoint")
+display(df_agrupado)
+# display(df, checkpointLocation="/Volumes/workspace/default/laboratorio-spark/exercicio.04.02/_checkpoint")
 
 # COMMAND ----------
 
