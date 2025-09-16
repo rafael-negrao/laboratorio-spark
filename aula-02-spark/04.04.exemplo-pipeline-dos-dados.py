@@ -38,7 +38,7 @@ banco_de_dados = "exemploapidb"
 tabela = "contato_eventos"
 
 # dados para acessar o kafka
-brokers = "35.170.45.4:9094"
+brokers = "44.218.133.158:9094"
 topic = "mysql.exemplodb.contato_entity"
 groupId = f"consumer-landing-{tabela}-{aluno}-01"
 
@@ -242,7 +242,6 @@ else:
       .format("kafka") 
       .option("kafka.bootstrap.servers", brokers) 
       .option("subscribe", topic) 
-      .option("group.id", groupId)
       .option("startingOffsets", "earliest") 
       .load())
 
@@ -262,6 +261,11 @@ df_estagio_01 = (
     .withColumn("date", from_utc_timestamp((col("value_struct.payload.ts_ms") / lit(1000)).cast("timestamp"), "Brazil/East").cast("date"))
     .withColumn("date", when(col("date").isNull(), col("timestamp").cast("date")).otherwise(col("date")))
 )
+
+# COMMAND ----------
+
+# MAGIC %sh
+# MAGIC nc -vz -w 3 44.218.133.158 9094
 
 # COMMAND ----------
 
