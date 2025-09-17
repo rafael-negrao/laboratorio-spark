@@ -119,10 +119,10 @@ localizacao_base_silver_tabela_checkpoint = {localizacao_base_silver_tabela_chec
 # COMMAND ----------
 
 # limpeza
-dbutils.fs.rm(localizacao_base_landing, True)
-dbutils.fs.rm(localizacao_base_raw, True)
-dbutils.fs.rm(localizacao_base_bronze, True)
-dbutils.fs.rm(localizacao_base_silver, True)
+# dbutils.fs.rm(localizacao_base_landing, True)
+# dbutils.fs.rm(localizacao_base_raw, True)
+# dbutils.fs.rm(localizacao_base_bronze, True)
+# dbutils.fs.rm(localizacao_base_silver, True)
 
 # COMMAND ----------
 
@@ -264,8 +264,7 @@ df_estagio_01 = (
 
 # COMMAND ----------
 
-# MAGIC %sh
-# MAGIC nc -vz -w 3 44.218.133.158 9094
+display(df_kafka_stream)
 
 # COMMAND ----------
 
@@ -304,7 +303,7 @@ else:
 # COMMAND ----------
 
 display(dbutils.fs.ls(localizacao_base_landing))
-display(dbutils.fs.ls(f'{localizacao_base_landing}/date=2025-09-01'))
+display(dbutils.fs.ls(f'{localizacao_base_landing}/date=2025-09-16/'))
 
 # COMMAND ----------
 
@@ -349,7 +348,7 @@ print(f'''localizacao_base_raw = {localizacao_base_raw}''')
 
 display(
 spark.sql(f"""
-CREATE DATABASE IF NOT EXISTS raw_exemploapidb
+CREATE DATABASE IF NOT EXISTS raw_exemploapidb_{aluno}
 LOCATION '{localizacao_base_raw}'
 """)
 )
@@ -436,7 +435,7 @@ from delta.tables import *
 
 delta_table = (
   DeltaTable.createIfNotExists(spark)
-    .tableName('raw_exemploapidb.contato_eventos')
+    .tableName(f'raw_exemploapidb_{aluno}.contato_eventos')
     .location(localizacao_base_raw_tabela)
     .partitionedBy('raw_date')
     .addColumns(df_raw_stage_04.schema)
@@ -447,8 +446,11 @@ display(delta_table.detail())
 
 # COMMAND ----------
 
-# MAGIC %sql
-# MAGIC desc extended raw_exemploapidb.contato_eventos
+display(dbutils.fs.ls("dbfs:/user/hive/warehouse/fialabdata-engenharia-deltalake/raw/"))
+
+# COMMAND ----------
+
+display(spark.sql(f'desc extended raw_exemploapidb_{aluno}.contato_eventos'))
 
 # COMMAND ----------
 
@@ -460,7 +462,7 @@ def foreachBatchRaw(batchDF: DataFrame, batchId: int):
       .format('delta')
       .mode('append')
       .partitionBy('raw_date')
-      .saveAsTable('raw_exemploapidb.contato_eventos')
+      .saveAsTable(f'raw_exemploapidb_{aluno}.contato_eventos')
   )
 
 # COMMAND ----------
@@ -487,8 +489,7 @@ foreachBatchRaw(df_raw_stage_04, 0)
 
 # COMMAND ----------
 
-# MAGIC %sql
-# MAGIC select * from raw_exemploapidb.contato_eventos
+display(sql(f'select * from raw_exemploapidb_{aluno}.contato_eventos'))
 
 # COMMAND ----------
 
@@ -526,7 +527,7 @@ print(f'localizacao_base_bronze = {localizacao_base_bronze}')
 
 display(
 spark.sql(f"""
-CREATE DATABASE IF NOT EXISTS bronze_exemploapidb
+CREATE DATABASE IF NOT EXISTS bronze_exemploapidb_{aluno}
 LOCATION '{localizacao_base_bronze}'
 """)
 )
@@ -544,9 +545,9 @@ LOCATION '{localizacao_base_bronze}'
 # leitura no modo stream
 print(f"is_stream_mode = {is_stream_mode}")
 if is_stream_mode:
-  df_bronze_stage_01 = spark.readStream.table("raw_exemploapidb.contato_eventos")
+  df_bronze_stage_01 = spark.readStream.table(f"raw_exemploapidb_{aluno}.contato_eventos")
 else:
-  df_bronze_stage_01 = spark.table('raw_exemploapidb.contato_eventos')
+  df_bronze_stage_01 = spark.table(f'raw_exemploapidb_{aluno}.contato_eventos')
   display(df_bronze_stage_01)
 
 # COMMAND ----------
@@ -596,7 +597,7 @@ from delta.tables import *
 
 delta_table = (
   DeltaTable.createIfNotExists(spark)
-    .tableName('bronze_exemploapidb.contato_eventos')
+    .tableName(f'bronze_exemploapidb_{aluno}.contato_eventos')
     .location(localizacao_base_bronze_tabela)
     .partitionedBy('bronze_date')
     .addColumns(df_bronze_stage_03.schema)
@@ -614,7 +615,7 @@ def foreachBatchBronze(batchDF: DataFrame, batchId: int):
       .format('delta')
       .mode('append')
       .partitionBy('bronze_date')
-      .saveAsTable('bronze_exemploapidb.contato_eventos')
+      .saveAsTable(f'bronze_exemploapidb_{aluno}.contato_eventos')
   )
 
 # COMMAND ----------
@@ -635,8 +636,7 @@ else:
 
 # COMMAND ----------
 
-# MAGIC %sql
-# MAGIC select * from bronze_exemploapidb.contato_eventos
+display(spark.sql(f'select * from bronze_exemploapidb_{aluno}.contato_eventos'))
 
 # COMMAND ----------
 
@@ -685,7 +685,7 @@ print(f'localizacao_base_silver = {localizacao_base_silver}')
 
 display(
 spark.sql(f"""
-CREATE DATABASE IF NOT EXISTS silver_exemploapidb
+CREATE DATABASE IF NOT EXISTS silver_exemploapidb_{aluno}
 LOCATION '{localizacao_base_silver}'
 """)
 )
@@ -701,9 +701,9 @@ LOCATION '{localizacao_base_silver}'
 
 print(f"is_stream_mode = {is_stream_mode}")
 if is_stream_mode:
-  df_silver_stage_01 = spark.readStream.table('bronze_exemploapidb.contato_eventos')
+  df_silver_stage_01 = spark.readStream.table(f'bronze_exemploapidb_{aluno}.contato_eventos')
 else:
-  df_silver_stage_01 = spark.table('bronze_exemploapidb.contato_eventos')
+  df_silver_stage_01 = spark.table(f'bronze_exemploapidb_{aluno}.contato_eventos')
   display(df_silver_stage_01)
 
 # COMMAND ----------
@@ -781,7 +781,13 @@ print(f'localizacao_base_silver_tabela = {localizacao_base_silver_tabela}')
 
 # COMMAND ----------
 
-print('colunas: {}'.format([c for c in df_silver_stage_03.columns if 'op_rank' not in c]))
+print('colunas antes: {}'.format(df_silver_stage_03.columns))
+print('colunas depois: {}'.format([c for c in df_silver_stage_03.columns if 'op_rank' not in c]))
+
+# COMMAND ----------
+
+# MAGIC %sql
+# MAGIC -- drop table silver_exemploapidb_rafael.contato_eventos
 
 # COMMAND ----------
 
@@ -789,7 +795,7 @@ from delta.tables import *
 
 delta_table = (
   DeltaTable.createIfNotExists(spark)
-    .tableName('silver_exemploapidb.contato_eventos')
+    .tableName(f'silver_exemploapidb_{aluno}.contato_eventos')
     .location(localizacao_base_silver_tabela)
     .addColumns(
       df_silver_stage_03
@@ -841,7 +847,7 @@ def foreachBatchSilver(dataframe: DataFrame, batchId: int):
     build_rank(dataframe, ['id'], [F.col('ts_ms').desc(), F.col('op_rank').desc()])
     .drop('op_rank')
   )
-  delta_table_silver_contato = DeltaTable.forName(spark, 'silver_exemploapidb.contato_eventos')
+  delta_table_silver_contato = DeltaTable.forName(spark, f'silver_exemploapidb_{aluno}.contato_eventos')
   (
     delta_table_silver_contato
     .alias('target')
@@ -873,8 +879,9 @@ else:
 
 # COMMAND ----------
 
-display(spark.table('silver_exemploapidb.contato_eventos'))
+display(spark.table(f'silver_exemploapidb_{aluno}.contato_eventos'))
 
 # COMMAND ----------
 
-`[INFO]: FIM DO NOTEBOOK`
+# MAGIC %md
+# MAGIC `[INFO]: FIM DO NOTEBOOK`
